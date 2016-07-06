@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WiFi Assistant</string>
+    <string name="cancel">Cancel</string>
+    <string name="connect">Connect</string>
+    <string name="qrcode">Place the QR code in the middle</string>
+    <string name="share">Share</string>
+    <string name="wifi_ssid">WiFi SSID:</string>
+    <string name="wifi_pwd">Password:</string>
+    <string name="wifi_type">Type:</string>
+</resources>

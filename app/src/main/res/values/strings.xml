@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">WiFi助手</string>
+    <string name="qrcode">请将二维码置于中央</string>
+    <string name="wifi_ssid">WiFi名称:</string>
+    <string name="wifi_type">加密类型:</string>
+    <string name="wifi_pwd">密码:</string>
+    <string name="share">分享</string>
+    <string name="connect">连接</string>
+    <string name="cancel">取消</string>
+</resources>
