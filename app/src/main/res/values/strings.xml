@@ -7,4 +7,7 @@
     <string name="share">分享</string>
     <string name="connect">连接</string>
     <string name="cancel">取消</string>
+    <string name="permission_refuse_title">权限被拒绝</string>
+    <string name="permission_refuse_message">由于您拒绝了相机权限,本应用无法扫描二维码</string>
+    <string name="confirm">确认</string>
 </resources>

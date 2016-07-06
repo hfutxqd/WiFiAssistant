@@ -1,26 +1,25 @@
 package xyz.imxqd.zuiwifi;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Base64;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONStringer;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Properties;
 
 public class MainActivity extends AppCompatActivity implements DialogInterface.OnDismissListener {
 
@@ -29,16 +28,47 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
         image = (ImageView) findViewById(R.id.image);
+        wifiAdmin = new WifiAdmin(getApplicationContext());
+        wifiAdmin.openWifi();
+        wifiAdmin.startScan();
+        checkPermission();
+    }
 
+    private void checkPermission() {
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                == PackageManager.PERMISSION_GRANTED) {
+            initScan();
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA}, 0);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if( grantResults[0] == PackageManager.PERMISSION_GRANTED ) {
+            initScan();
+        } else {
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.permission_refuse_title)
+                    .setMessage(R.string.permission_refuse_message)
+                    .setPositiveButton(R.string.confirm, null)
+                    .setOnDismissListener(this)
+                    .show();
+        }
+    }
+
+
+
+    private void initScan() {
         IntentIntegrator intentIntegrator = new IntentIntegrator(this);
         intentIntegrator.setOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         intentIntegrator.setPrompt(getString(R.string.qrcode));
         intentIntegrator.initiateScan(IntentIntegrator.QR_CODE_TYPES);
-        wifiAdmin = new WifiAdmin(getApplicationContext());
-        wifiAdmin.openWifi();
-        wifiAdmin.startScan();
     }
 
     @Override
